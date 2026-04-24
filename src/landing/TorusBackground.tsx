@@ -48,13 +48,14 @@ export const TorusBackground: React.FC<{ className?: string; intensity?: number 
         float aspect = res.x / res.y;
         float land = smoothstep(0.8, 1.3, aspect);
 
-        // Shift: portrait perfectly centered so the ring sits in the middle;
-        // landscape pushes ring up so the arc peeks just above content.
+        // Shift: portrait centers the ring on the text cluster (shift = 0),
+        // landscape keeps the "arc peek from top" effect.
         p.y += mix(0.0, 0.95, land);
 
-        // Radius + thickness also adapt so the glow feels proportional
-        float radius    = mix(1.0, 1.6, land);
-        float thickness = mix(0.42, 0.55, land);
+        // Radius / thickness — smaller + thinner on portrait so the glow
+        // reads as a soft backdrop, not a dominant element.
+        float radius    = mix(0.9, 1.6, land);
+        float thickness = mix(0.38, 0.55, land);
 
         float r = length(p);
         float a = atan(p.y, p.x);
@@ -79,11 +80,15 @@ export const TorusBackground: React.FC<{ className?: string; intensity?: number 
 
         vec3 finalColor = lineColor * pattern * 2.3 + baseColor * coreGlow * 1.1;
 
-        // Soft fade to edges. On portrait (ring is centered), fade symmetrically
-        // from both top and bottom so the glow feels anchored to the middle.
-        finalColor *= smoothstep(mix(1.6, 1.7, land), -0.4, p.y);
-        finalColor *= smoothstep(mix(-1.6, -2.4, land), 0.4, -p.y);
-        finalColor *= smoothstep(mix(2.2, 3.0, land), 1.0, r);
+        // On portrait: subtle symmetric radial fade keeps glow centered on text.
+        // On landscape: vertical bias pushes glow toward upper half.
+        float verticalBias = mix(1.0, smoothstep(1.7, -0.4, p.y), land);
+        finalColor *= verticalBias;
+        finalColor *= smoothstep(mix(2.4, 3.0, land), 0.6, r);
+
+        // Portrait overall dim so it reads as ambience, not foreground.
+        // (Desktop gets its dimming from the vertical bias above.)
+        finalColor *= mix(0.55, 1.0, land);
 
         finalColor *= u_intensity;
 

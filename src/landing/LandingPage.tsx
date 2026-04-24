@@ -48,7 +48,7 @@ export const LandingPage: React.FC = () => {
   const start = 260;
 
   return (
-    <div className="relative min-h-[100svh] w-full overflow-hidden bg-black text-white">
+    <div className="relative h-[100svh] w-full overflow-hidden bg-black text-white">
       {/* WebGL torus background */}
       <div className="absolute inset-0 z-0">
         <TorusBackground />
@@ -67,10 +67,10 @@ export const LandingPage: React.FC = () => {
         />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 flex min-h-[100svh] flex-col px-5 md:px-10">
+      {/* Content — strict viewport height, no scroll */}
+      <div className="relative z-10 flex h-[100svh] flex-col px-5 md:px-10">
         {/* Logo */}
-        <header className="flex w-full items-center justify-center pt-6 md:pt-14">
+        <header className="flex w-full items-center justify-center pt-5 md:pt-12">
           <a
             href="/"
             className="group inline-flex items-center gap-2 rounded-md px-1 py-1 focus-visible:shadow-focus-ring"
@@ -92,7 +92,7 @@ export const LandingPage: React.FC = () => {
         </header>
 
         {/* Main — text is always vertically centered on every viewport */}
-        <main className="flex flex-1 flex-col items-center justify-center py-6 md:py-20">
+        <main className="flex flex-1 flex-col items-center justify-center py-4 md:py-16 min-h-0">
           <div className="w-full max-w-3xl text-center">
             {/* Launching Soon — animated badge */}
             <div
@@ -112,7 +112,7 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Hero headline — word-by-word blur-to-sharp fade; middle phrase has sheen */}
-            <h1 className="mt-6 md:mt-8 text-balance text-[32px] leading-[1.18] font-medium tracking-tight text-white sm:text-[36px] md:text-[42px] md:leading-[1.15] lg:text-[52px] [text-wrap:balance]">
+            <h1 className="mt-5 md:mt-8 text-balance text-[30px] leading-[1.18] font-medium tracking-tight text-white sm:text-[34px] md:text-[42px] md:leading-[1.15] lg:text-[52px] [text-wrap:balance]">
               <AnimatedWords text={HEADLINE_PART_1} startDelay={start} stepMs={step} />{" "}
               <AnimatedWords
                 text={HEADLINE_PART_2}
@@ -129,7 +129,7 @@ export const LandingPage: React.FC = () => {
 
             {/* Subtitle */}
             <p
-              className="mx-auto mt-5 md:mt-7 max-w-2xl text-pretty text-[15px] leading-relaxed text-white/65 md:text-lg opacity-0 animate-slide-up"
+              className="mx-auto mt-4 md:mt-7 max-w-2xl text-pretty text-[15px] leading-relaxed text-white/65 md:text-lg opacity-0 animate-slide-up"
               style={{ animationDelay: "1400ms", animationFillMode: "forwards" }}
             >
               A unified platform for cross-venue execution and risk-managed access.
@@ -137,7 +137,7 @@ export const LandingPage: React.FC = () => {
 
             {/* CTA */}
             <div
-              className="mt-7 md:mt-10 flex items-center justify-center opacity-0 animate-slide-up"
+              className="mt-6 md:mt-10 flex items-center justify-center opacity-0 animate-slide-up"
               style={{ animationDelay: "1600ms", animationFillMode: "forwards" }}
             >
               <a
